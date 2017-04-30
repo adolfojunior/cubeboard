@@ -1,7 +1,7 @@
 
 Sample application using only ElasticSearch and Kibana
 
-You will need (Docker)[https://www.docker.com/]
+You will need [Docker](https://www.docker.com/)
 
 ## Running everything
 ```
