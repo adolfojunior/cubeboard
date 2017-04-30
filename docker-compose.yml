@@ -1,0 +1,56 @@
+version: '3'
+services:
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.2
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.name=docker-cluster
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+    expose:
+      - "9200"
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.3.2
+    depends_on:
+      - es
+    links:
+      - es:elasticsearch
+    ports:
+      - "8000:5601"
+    expose:
+      - "5601"
+  app:
+    build:
+      context: ./app
+      dockerfile: app.Dockerfile
+    depends_on:
+      - es
+    links:
+      - es:elasticsearch
+    volumes:
+      - ./public/:/app/public/:ro
+    ports:
+      - "3000:3000"
+  import:
+    image: jfloff/alpine-python:2.7
+    depends_on:
+      - es
+    links:
+      - es:elasticsearch
+    volumes:
+      - ./populate.py:/pupulate.py
+
+    
