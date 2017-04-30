@@ -51,6 +51,6 @@ services:
     links:
       - es:elasticsearch
     volumes:
-      - ./populate.py:/pupulate.py
+      - ./populate.py:/populate.py
 
     

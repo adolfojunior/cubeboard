@@ -20,7 +20,7 @@ def datetime_range():
 def push(path, data):
     # print json.dumps(data)
     headers = {"Content-type": "application/json"}
-    conn = httplib.HTTPConnection("localhost:9200")
+    conn = httplib.HTTPConnection("elasticsearch:9200")
     conn.request("POST", path, json.dumps(data), headers)
     response = conn.getresponse()
     print response.status, response.reason
