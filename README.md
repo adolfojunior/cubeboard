@@ -11,6 +11,8 @@ git clone https://github.com/adolfojunior/cubeboard.git cubeboard
 cd cubeboard
 ```
 
+OR just download the zip https://github.com/adolfojunior/cubeboard/archive/master.zip
+
 ## Running all the services
 
 Using `docker-compose` it will bootstrap all the services (ElasticSearch, Kibana, Sample App)
