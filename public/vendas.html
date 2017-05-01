@@ -27,8 +27,7 @@
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    </nav>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
 
     <div class="container" role="main">
       <div class="page-header">
@@ -37,21 +36,11 @@
             <div class="pull-right">
                 <a href="/venda.html" class="btn btn-default">
                     <span class="glyphicon glyphicon-plus"></span>
+                    Registrar Venda
                 </a>
             </div>
         </h1>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="input-group">
-              <input type="text" id="search" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button id="btn-search" class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-              </span>
-            </div><!-- /input-group -->
-          </div><!-- /.col-lg-6 -->
-        </div><!-- /.row -->
+        <div id="nav-search"></div>
       </div>
       <div id="sales" class="row">
         <table class="table table-striped">
@@ -83,44 +72,28 @@
     <script src="/app.js"></script>
 
     <script>
-        
-        jQuery('nav').load('/navbar.html');
-
-        jQuery(function($){
-            $("#btn-search").click(function (e) {
-                search()
-            });
-            $("#search").on('keyup', function (e) {
-                if (e.keyCode === 13) {
-                    search()
-                }
-            });
+    app.enableNav('#navbar')
+    app.enableSearch('#nav-search', function(query) {
+        api.findVendas(query).done(function(items) {
+            var rows = $.map(items, function(item) {
+                return ([
+                    '<tr>',
+                        '<td>', item.sales_date ,'</td>',
+                        '<td>', item.salesman ,'</td>',
+                        '<td>', item.product ,'</td>',
+                        '<td>', item.price ,'</td>',
+                        '<td>', item.quantity ,'</td>',
+                        '<td>', item.discount ,'</td>',
+                        '<td>', item.total ,'</td>',
+                    '</tr>'
+                ]).join('');
+            })
+            $("#sales > table > tbody").empty().append(rows)
         })
-
-        function search() {
-            findVendas($("#search").val())
-                .done(function(data) {
-                    var rows = $.map(data.hits.hits, function(item) {
-                      var source = item._source
-                      return ([
-                          '<tr>',
-                            '<td>', source.sales_date ,'</td>',
-                            '<td>', source.salesman ,'</td>',
-                            '<td>', source.product ,'</td>',
-                            '<td>', source.price ,'</td>',
-                            '<td>', source.quantity ,'</td>',
-                            '<td>', source.discount ,'</td>',
-                            '<td>', source.total ,'</td>',
-                        '</tr>'
-                      ]).join('');
-                    })
-                    $("#sales > table > tbody").empty().append(rows)
-                })
-                .fail(function() {
-                    floatAlert.error("Ocorreu uma falha ao recuperar registros" )
-                })
-        }
-
+        .fail(function() {
+            alerts.error("Ocorreu uma falha ao recuperar registros")
+        })
+    })
     </script>
 
   </body>

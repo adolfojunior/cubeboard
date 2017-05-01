@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 60px;
   padding-bottom: 30px;
 }
 
@@ -21,8 +21,6 @@ body {
     width: auto;
 }
 
-
-
 .ui-autocomplete {
     position: absolute;
     z-index: 1000;
@@ -42,7 +40,7 @@ body {
 .ui-autocomplete > li {
   padding: 3px 20px;
 }
-.ui-autocomplete > li.ui-state-focus {
+.ui-autocomplete > li:hover {
   background-color: #DDD;
 }
 .ui-helper-hidden-accessible {

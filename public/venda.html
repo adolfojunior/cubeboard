@@ -27,8 +27,7 @@
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    </nav>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
 
     <div class="container" role="main">
       <div class="page-header">
@@ -41,10 +40,10 @@
               <label for="salesman" class="col-md-2 control-label">Vendedor</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
                     </span>
-                    <input class="form-control" type="text" value="" id="salesman" placeholder="vendedor">
+                    <input class="form-control" data-format="CODE" type="text" value="" id="salesman" placeholder="vendedor">
                 </div>
               </div>
             </div>
@@ -53,10 +52,10 @@
               <label for="product" class="col-md-2 control-label">Produto</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-barcode"></span>
                     </span>
-                    <input class="form-control" type="text" value="" id="product" placeholder="produto">
+                    <input class="form-control" data-format="CODE" type="text" value="" id="product" placeholder="produto">
                 </div>
               </div>
             </div>
@@ -65,10 +64,10 @@
               <label for="price" class="col-md-2 control-label">Preço</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-usd"></span>
                     </span>
-                    <input class="form-control" type="number" step="0.10" value="" id="price" placeholder="preço">
+                    <input class="form-control" data-format="DECIMAL" type="number" step="0.10" value="" id="price" placeholder="preço">
                 </div>
               </div>
             </div>
@@ -76,7 +75,7 @@
             <div class="form-group row">
               <label for="quantity" class="col-md-2 control-label">Quantidade</label>
               <div class="col-md-10">
-                    <input class="form-control" type="number" step="1" value="" id="quantity" placeholder="0">
+                    <input class="form-control" data-format="INTEGER" type="number" step="1" value="" id="quantity" placeholder="0">
               </div>
             </div>
 
@@ -84,10 +83,10 @@
               <label for="discount" class="col-md-2 control-label">Desconto</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
-                        <span class="glyphicon glyphicon-usd"></span>
+                    <span class="input-group-addon">
+                        %
                     </span>
-                    <input class="form-control" type="number" step="0.10" value="" id="discount" placeholder="0.00">
+                    <input class="form-control" data-format="DECIMAL" type="number" step="0.10" value="" id="discount" placeholder="0.00">
                 </div>
               </div>
             </div>
@@ -96,10 +95,10 @@
               <label for="total" class="col-md-2 control-label">Total</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-usd"></span>
                     </span>
-                    <input class="form-control" type="number" step="0.10" value="" id="total" placeholder="0">
+                    <input class="form-control" data-format="DECIMAL" type="number" step="0.10" value="" id="total" placeholder="0">
                 </div>
               </div>
             </div>
@@ -108,10 +107,10 @@
               <label for="sales_date" class="col-md-2 control-label">Data Venda</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                    <input class="form-control" type="text" value="" id="sales_date" placeholder="dd/MM/yyyy">
+                    <input class="form-control" data-format="DATE" type="text" value="" id="sales_date" placeholder="dd/MM/yyyy">
                 </div>
               </div>
             </div>
@@ -120,10 +119,10 @@
               <label class="col-md-2 control-label">Hora Venda</label>
               <div class="col-md-10">
                 <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon1">
+                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                     </span>
-                    <input class="form-control" type="text" value="" id="sales_time" placeholder="hh:mm">
+                    <input class="form-control" data-format="TIME" type="text" value="" id="sales_time" placeholder="hh:mm">
                 </div>
               </div>
               </div>
@@ -131,7 +130,7 @@
 
             <div class="form-group row">
               <div class="col-md-offset-2 col-md-10 text-center">
-                <button id="btn-save" class="btn btn-lg btn-primary">
+                <button id="btn-save" class="btn btn-lg btn-primary" type="button">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     Registrar
                 </button>
@@ -155,87 +154,39 @@
     <script src="/app.js"></script>
 
     <script>
+        app.enableNav('#navbar')
+        app.onload(function($){
 
-        jQuery('nav').load('/navbar.html');
-
-        jQuery(function($){
-            
             var DD_MM_YYYY = 'DD/MM/YYYY'
             var HH_MM = 'HH:mm'
 
-            $('#sales_date').attr('placeholder', moment().format(DD_MM_YYYY))
-            $('#sales_time').attr('placeholder', moment().format(HH_MM))
-
-            $('#salesman').autocomplete({
-              minLength: 1,
-              source: function( request, response ) {
-                $.ajax({
-                  url: "/es/comp/vendedores/_search",
-                  data: {
-                    q: request.term + '*'
-                  },
-                  success: function( data ) {
-                    response($.map(data.hits.hits, function(item){
-                        return {
-                            label: ['(',item._source.id,') ',item._source.name].join(''),
-                            value: item._source.id,
-                            source: item._source
-                        }
-                    }))
-                  }
-                })
-              }
-            });
-            $('#product').autocomplete({
-              minLength: 1,
-              source: function( request, response ) {
-                $.ajax({
-                  url: "/es/comp/produtos/_search",
-                  data: {
-                    q: request.term + '*'
-                  },
-                  success: function( data ) {
-                    response($.map(data.hits.hits, function(item){
-                        var source = item._source
-                        var data = {
-                            label: ['(',source.id,') ', source.name].join(''),
-                            value: source.id,
-                            source: source
-                        }
-                        return data
-                    }))
-                  }
-                })
-              },
-              select: function(event, ui) {
-                var qtd = $("#quantity").val()
-                $("#price").val(ui.item.price)
-                if (qtd) {
-                    $("#total").val(ui.item.price * parseInt(qtd))
+            function updateTotal() {
+                var price = parseFloat($("#price").val())
+                var quantity = parseInt($("#quantity").val())
+                var discount = parseFloat($("#discount").val())
+                if (price && quantity) {
+                    total = price * quantity
+                    if (discount) {
+                        total = total - (total * (discount / 100.0))
+                    }
+                    $("#total").val(total.toFixed(2)).trigger('change')
                 }
-              }
-            });
+            }
 
+            function salvarVenda(data) {
 
-            $('#btn-save').click(function(event){
-                event.preventDefault()
+                var salesman = form.getValue("#salesman")
+                var product = form.getValue("#product")
+                var price = form.getValue("#price")
+                var quantity = form.getValue("#quantity")
+                var total = form.getValue("#total")
+                var discount = form.getValue("#discount")
+                var date = form.getValue("#sales_date")
+                var time = form.getValue("#sales_time")
 
-                var salesman = validateAndGetInput("#salesman", CODE_VALIDATOR)
-                var product = validateAndGetInput("#product", CODE_VALIDATOR)
-                var price = validateAndGetInput("#price", DECIMAL_VALIDATOR)
-                var quantity = validateAndGetInput("#quantity", INTEGER_VALIDATOR)
-                var total = validateAndGetInput("#total", DECIMAL_VALIDATOR)
-                var discount = validateAndGetInput("#discount", DECIMAL_VALIDATOR)
-                var sales_date = validateAndGetInput("#sales_date", DATE_VALIDATOR, moment().format(DD_MM_YYYY))
-                var sales_time = validateAndGetInput("#sales_time", TIME_VALIDATOR, moment().format(HH_MM))
+                if (form.isValid('#sales-form')) {
 
-                if (isFormValid('#sales-form')) {
-
-                    price = parseFloat(price)
-                    quantity = parseInt(quantity)
-                    total = parseInt(total)
-                    discount = parseFloat(discount)
-                    date = moment(sales_date + ' ' + sales_time, [DD_MM_YYYY + ' ' + HH_MM, DD_MM_YYYY]).toISOString()
+                    sales_date = moment(date + ' ' + time, [DD_MM_YYYY + ' ' + HH_MM]).toISOString()
 
                     var data = {
                         "salesman": salesman,
@@ -244,26 +195,51 @@
                         "qtd": quantity,
                         "total": total,
                         "discount": discount,
-                        "sales_date": date
+                        "sales_date": sales_date
                     }
 
                     $('#btn-save').prop('disabled', true)
-
-                    saveSales(data)
-                        .done(function() {
-                            floatAlert.ok("Registro gravado com sucesso" )
-                        })
-                        .fail(function() {
-                            floatAlert.error("Ocorreu uma falha ao gravar o registro, tente novamente" )
-                        })
-                        .always(function() {
-                            $('#btn-save').prop('disabled', false)
-                        })
+                    api.saveVendas(data).done(function() {
+                        app.page('/vendas.html')
+                    })
+                    .fail(function() {
+                        alerts.error("Ocorreu uma falha ao gravar o registro, tente novamente")
+                    })
+                    .always(function() {
+                        $('#btn-save').prop('disabled', false)
+                    })
 
                 } else {
-                    floatAlert.warn("Verifique os campos requeridos" )
+                    alerts.warn("Verifique os campos requeridos")
                 }
-                return false
+            }
+
+            $('#price,#quantity,#discount').change(updateTotal)
+
+            $('#sales_date').val(moment().format(DD_MM_YYYY))
+            $('#sales_time').val(moment().format(HH_MM))
+
+            app.enableAutocomplete('#salesman', {
+                search: api.findVendedores,
+                label: function(item){ return '(' + item.id + ') ' + item.name },
+                value: function(item){ return item.id }
+            })
+
+            app.enableAutocomplete('#product', {
+                search: api.findProdutos,
+                label: function(item){ return '(' + item.id + ') ' + item.name },
+                value: function(item){ return item.id },
+                select: function(item) {
+                    $("#price").val(item.price).trigger('change')
+                }
+            })
+
+            // enable auto-validation on each input
+            form.autoValidate('#sales-form input')
+
+            $('#btn-save').click(function(event){
+                event.preventDefault()
+                salvarVenda()
             })
         })
     </script>

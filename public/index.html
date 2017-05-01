@@ -27,8 +27,7 @@
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    </nav>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
 
     <div class="container" role="main">
         <div class="jumbotron">
@@ -50,7 +49,7 @@
     <script src="/app.js"></script>
 
     <script>
-        jQuery('nav').load('/navbar.html');
+        app.enableNav('#navbar')
     </script>
 
   </body>
