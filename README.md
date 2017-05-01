@@ -1,10 +1,11 @@
 
-Sample application using only ElasticSearch and Kibana
+Sample application using ElasticSearch and Kibana as backend services.
 
 ## Installation
 
 First install https://www.docker.com/
 
+From a terminal run:
 ```
 git clone https://github.com/adolfojunior/cubeboard.git cubeboard
 cd cubeboard
