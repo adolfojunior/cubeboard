@@ -2,10 +2,10 @@ FROM mhart/alpine-node
 
 WORKDIR /app/
 
-VOLUME /app/public
-
-COPY index.js .
 COPY package.json .
+COPY server/ .
+
+VOLUME /app/client/
 
 EXPOSE 3000
 

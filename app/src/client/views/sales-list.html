@@ -1,0 +1,29 @@
+<div class="page-header">
+    <h1>
+        Vendas
+        <button id="btn-save" class="pill-right btn btn-lg btn-primary" type="button" ng-click="$ctrl.create()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Registrar
+        </button>
+    </h1>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="sale in $ctrl.sales">
+                <td>{{sale.id}}</td>
+                <td>{{sale.name}}</td>
+                <td>{{sale.total}}</td>
+                <td>{{sale.quantity}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

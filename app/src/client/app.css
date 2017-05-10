@@ -1,0 +1,22 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+body {
+  padding-top: 60px;
+  padding-bottom: 30px;
+}
+
+.dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.form-validation input.ng-invalid.ng-touched {
+  background-color: #FA787E;
+}
+
+.form-validation input.ng-valid.ng-touched {
+  background-color: #78FA89;
+}

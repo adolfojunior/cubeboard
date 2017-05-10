@@ -1,0 +1,19 @@
+<div class="page-header">
+    <h1>Vendedores</h1>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="seller in $ctrl.sellers">
+                <td>{{seller.id}}</td>
+                <td>{{seller.name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

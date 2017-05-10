@@ -219,13 +219,13 @@
             $('#sales_date').val(moment().format(DD_MM_YYYY))
             $('#sales_time').val(moment().format(HH_MM))
 
-            app.enableAutocomplete('#salesman', {
+            form.autocomplete('#salesman', {
                 search: api.findVendedores,
                 label: function(item){ return '(' + item.id + ') ' + item.name },
                 value: function(item){ return item.id }
             })
 
-            app.enableAutocomplete('#product', {
+            form.autocomplete('#product', {
                 search: api.findProdutos,
                 label: function(item){ return '(' + item.id + ') ' + item.name },
                 value: function(item){ return item.id },
@@ -235,7 +235,7 @@
             })
 
             // enable auto-validation on each input
-            form.autoValidate('#sales-form input')
+            form.enableAutoValidation('#sales-form input')
 
             $('#btn-save').click(function(event){
                 event.preventDefault()

@@ -35,13 +35,12 @@ services:
   app:
     build:
       context: ./app
-      dockerfile: app.Dockerfile
     depends_on:
       - es
     links:
       - es:elasticsearch
     volumes:
-      - ./public/:/app/public/:ro
+      - ./app/client/:/app/client/:ro
     ports:
       - "3000:3000"
   import:

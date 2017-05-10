@@ -1,0 +1,23 @@
+<div class="page-header">
+    <h1>Produtos</h1>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in $ctrl.products">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.price}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

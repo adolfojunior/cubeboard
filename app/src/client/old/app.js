@@ -8,6 +8,18 @@ var form = (function($){
                     return this.pattern.test(value)
                 }
                 return true
+            },
+            validateInput: function(selector) {
+                var input = $(selector)
+                var value = $.trim(input.val())
+                var valid = true
+                if (input.prop('required')) {
+                    valid = !!value
+                }
+                if (valid) {
+                    valid = this.validate(value)
+                }
+                return valid
             }
         })
     }
@@ -32,7 +44,7 @@ var form = (function($){
     }
 
     return {
-        autoValidate: function(selector) {
+        enableAutoValidation: function(selector) {
             var form = this
             var update = function(){
                 form.getValue(this)
@@ -44,31 +56,115 @@ var form = (function($){
             el = el.is('form') ? el.find('.form-group') : el.closest('.form-group')
             return ! el.hasClass('has-error')
         },
-        getValue: function(selector) {
-            var input = $(selector)
-            var group = input.closest('.form-group')
-            var value = $.trim(input.val())
-            var format = formats[input.data('format')]
-
-            var valid = true
-            if (input.prop('required')) {
-                valid = !!value
-            }
-            if (valid && format) {
-                valid = format.validate(value)
-                if (valid) {
-                    value = format.parser(value)
-                }
-            }
-
+        updateValid: function(selector, valid) {
+            var group = $(input).closest('.form-group')
             if (valid) {
                 group.removeClass('has-error')
                 group.addClass('has-success')
             } else if (!group.hasClass('has-error')) {
                 group.addClass('has-error')
             }
+        },
+        getValue: function(selector) {
+            var input = $(selector)
+            var format = formats[input.data('format')]
+
+            var valid = true
+            if (input.prop('required')) {
+                valid = !!value
+            }
+            if (format) {
+                valid = format.validateInput(input)
+                if (valid) {
+                    value = format.parser(value)
+                }
+            }
+            this.updateValid(input, valid)
             return value
+        },
+        autocomplete: function(selector, options) {
+            var search = options.search
+            var label = options.label || String
+            var value = options.value || String
+            var select = options.select || $.noop
+            $(selector).autocomplete({
+                minLength: 1,
+                source: function(request, response) {
+                    search(request.term).done(function(items){
+                        response($.map(items, function(item){
+                            return {
+                                label: label(item),
+                                value: value(item),
+                                source: item
+                            }
+                        }))
+                    })
+                },
+                select: function(event, ui) {
+                    select(ui.item.source)
+                }
+            })
         }
+    }
+})(jQuery)
+
+var app = (function($){
+    return {
+        page: function(path) {
+            location.href = path
+        },
+        onload: function(onload) {
+            $(document).ready(function(){
+                onload.call(this, $)
+            })
+        },
+        enableNav: function(navSelector) {
+            $(navSelector).load('/parts/navbar.html')
+        },
+        enableSearch: function(searchSelector, search) {
+            $(searchSelector).load('/parts/search.html', function() {
+                $("#btn-search").click(function(e) {
+                    search($("#search").val())
+                })
+                $("#search").on('keyup', function(e) {
+                    if (e.keyCode === 13) {
+                        search($("#search").val())
+                    }
+                })
+            })
+        }
+    }
+})(jQuery)
+
+var alerts = (function($){
+
+    var alertId = 1
+
+    function createAlert(type, message, timeout) {
+        if ($('#float-alert').length == 0) {
+          $('<div id="float-alert"></div>').appendTo('body')
+        }
+        var id = 'float-alert-' + (alertId++)
+        var html = [
+            '<div id="', id, '" class="alert alert-', type, ' fade in">',
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>',
+                message,
+                '&nbsp;&nbsp;',
+            '</div>'
+        ]
+        // add it
+        $(html.join('')).appendTo('#float-alert')
+        // close it
+        setTimeout(function () {
+            $('#' + id).alert('close')
+        }, timeout || 3000);
+    }
+
+    return {
+        ok: function(m, t){ createAlert('success', m, t) },
+        error: function(m, t){ createAlert('danger', m, t) },
+        warn: function(m, t){ createAlert('warning', m, t) },
+        info: function(m, t){ createAlert('info', m, t) }
     }
 })(jQuery)
 
@@ -104,88 +200,5 @@ var api = (function($){
         findVendas: function(query) {
             return _search('comp/vendas', query)
         }
-    }
-})(jQuery)
-
-var app = (function($){
-    return {
-        page: function(path) {
-            location.href = path
-        },
-        onload: function(onload) {
-            $(document).ready(function(){
-                onload.call(this, $)
-            })
-        },
-        enableNav: function(navSelector) {
-            $(navSelector).load('/parts/navbar.html')
-        },
-        enableSearch: function(searchSelector, search) {
-            $(searchSelector).load('/parts/search.html', function() {
-                $("#btn-search").click(function(e) {
-                    search($("#search").val())
-                })
-                $("#search").on('keyup', function(e) {
-                    if (e.keyCode === 13) {
-                        search($("#search").val())
-                    }
-                })
-            })
-        },
-        enableAutocomplete: function(selector, options) {
-            var search = options.search
-            var label = options.label || String
-            var value = options.value || String
-            var select = options.select || $.noop
-            $(selector).autocomplete({
-                minLength: 1,
-                source: function(request, response) {
-                    search(request.term).done(function(items){
-                        response($.map(items, function(item){
-                            return {
-                                label: label(item),
-                                value: value(item),
-                                source: item
-                            }
-                        }))
-                    })
-                },
-                select: function(event, ui) {
-                    select(ui.item.source)
-                }
-            })
-        }
-    }
-})(jQuery)
-
-var alerts = (function($){
-
-    var alertId = 1
-
-    function createAlert(type, message, timeout) {
-        if ($('#float-alert').length == 0) {
-          $('<div id="float-alert"></div>').appendTo('body')
-        }
-        var id = 'float-alert-' + (alertId++)
-        var html = [
-            '<div id="', id, '" class="alert alert-', type, ' fade in">',
-                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>',
-                message,
-                '&nbsp;&nbsp;',
-            '</div>'
-        ]
-        // add it
-        $(html.join('')).appendTo('#float-alert')
-        // close it
-        setTimeout(function () {
-            $('#' + id).alert('close')
-        }, timeout || 3000);
-    }
-
-    return {
-        ok: function(m, t){ createAlert('success', m, t) },
-        error: function(m, t){ createAlert('danger', m, t) },
-        warn: function(m, t){ createAlert('warning', m, t) },
-        info: function(m, t){ createAlert('info', m, t) }
     }
 })(jQuery)
