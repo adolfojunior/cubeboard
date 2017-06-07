@@ -42,6 +42,7 @@ export default class FieldGroup extends React.Component {
       leftAddonIcon,
       rightAddon,
       rightAddonIcon,
+      onValueChange,
       ...props
     } = this.props
 
