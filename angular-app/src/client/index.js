@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.css'
+import '~bootstrap/dist/css/bootstrap.css'
 
 import angular from 'angular'
 import uirouter from '@uirouter/angularjs'

@@ -1,12 +1,11 @@
-const path require('path')
-const webpack require('webpack')
-const autoprefixer require('autoprefixer')
-const DashboardPlugin require('webpack-dashboard/plugin')
-const ExtractTextPlugin require('extract-text-webpack-plugin')
-const HtmlWebpackPlugin require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
-const isProduction = nodeEnv === 'production'
+const productionEnv = nodeEnv === 'production'
 
 const buildPath = path.join(__dirname, './dist/client')
 const sourcePath = path.join(__dirname, './src/client')
@@ -59,14 +58,14 @@ const rules = [
   },
   {
     test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-    loader: 'file-loader'
+    loader: 'url-loader'
   },
   {
     test: /\.(css|sass|scss)$/,
     loader: ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: [
-        'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        'css-loader',
         'postcss-loader',
         'sass-loader'
       ]
@@ -74,7 +73,7 @@ const rules = [
   }
 ]
 
-if (isProduction) {
+if (productionEnv) {
   // Production plugins
   plugins.push(
     new webpack.LoaderOptionsPlugin({
@@ -102,13 +101,12 @@ if (isProduction) {
 } else {
   // Development plugins
   plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new DashboardPlugin()
+    new webpack.HotModuleReplacementPlugin()
   )
 }
 
 module.exports = {
-  devtool: isProduction ? 'eval' : 'source-map',
+  devtool: productionEnv ? 'eval' : 'source-map',
   context: sourcePath,
   entry: {
     js: './index.js',
@@ -136,11 +134,11 @@ module.exports = {
   plugins,
   devServer: {
     port: 3000,
-    contentBase: isProduction ? buildPath : sourcePath,
+    contentBase: productionEnv ? buildPath : sourcePath,
     historyApiFallback: true,
-    compress: isProduction,
-    inline: !isProduction,
-    hot: !isProduction,
+    compress: productionEnv,
+    inline: !productionEnv,
+    hot: !productionEnv,
     host: '0.0.0.0',
     stats: {
       assets: true,

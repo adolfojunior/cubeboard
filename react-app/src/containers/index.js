@@ -1,5 +1,0 @@
-export Home from './Home'
-export Main from './Main'
-export Products from './Products'
-export Sales from './Sales'
-export Sellers from './Sellers'

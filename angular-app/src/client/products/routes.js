@@ -1,4 +1,4 @@
-import ProductsController from './products.controller.js'
+import ProductsController from './ProductsController'
 
 /* @ngInject */
 function route($stateProvider) {

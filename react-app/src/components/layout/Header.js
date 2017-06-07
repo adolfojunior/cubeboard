@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Nav, Navbar } from 'react-bootstrap'
-import NavItemTo from './NavItemTo'
+import NavItemLinkTo from '../common/NavItemLinkTo'
 
 export default () => (
   <Navbar inverse collapseOnSelect>
@@ -11,9 +11,7 @@ export default () => (
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
-      <NavItemTo eventKey={1} href="/sales">Vendas</NavItemTo>
-      <NavItemTo eventKey={2} href="/products">Produtos</NavItemTo>
-      <NavItemTo eventKey={3} href="/sellers">Vendedores</NavItemTo>
+      <NavItemLinkTo eventKey={1} href="/sale">Venda</NavItemLinkTo>
     </Nav>
   </Navbar>
 )

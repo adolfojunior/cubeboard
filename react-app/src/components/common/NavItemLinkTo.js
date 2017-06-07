@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { NavItem } from 'react-bootstrap'
 
-export default class NavItemLinkTo extends Component {
+export default class NavItemLinkTo extends React.Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape.isRequired

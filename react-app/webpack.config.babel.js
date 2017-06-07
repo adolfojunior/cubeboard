@@ -15,6 +15,7 @@ const applicationEntry = './index.js'
 
 const plugins = [
   new webpack.NoEmitOnErrorsPlugin(),
+  new webpack.NamedModulesPlugin(),
   new webpack.LoaderOptionsPlugin({
     options: {
       postcss: [
@@ -54,11 +55,14 @@ const rules = [
   {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
-    use: 'babel-loader',
+    loader: 'babel-loader',
+    options: {
+      presets:[['es2015',{modules:false}], 'react', 'stage-0']
+    }
   },
   {
     test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-    loader: 'file-loader'
+    loader: 'url-loader?limit=5120'
   },
   {
     test: /\.(css|sass|scss)$/,
@@ -75,7 +79,7 @@ const rules = [
 ]
 
 if (!production) {
-    // Development plugins
+  // Development plugins
   plugins.push(
     new webpack.HotModuleReplacementPlugin()
   )
@@ -108,6 +112,7 @@ if (!production) {
 
 module.exports = {
   context: sourceDir,
+  devtool: production ? 'eval' : 'source-map',
   entry: {
     app: applicationEntry
   },
