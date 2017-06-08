@@ -1,5 +1,6 @@
 import React from 'react'
 import { func } from 'prop-types'
+import { Glyphicon, ButtonToolbar, Button } from 'react-bootstrap'
 import FieldGroup from './common/FieldGroup'
 
 export default class Sale extends React.Component {
@@ -8,6 +9,7 @@ export default class Sale extends React.Component {
   }
   constructor(props) {
     super(props)
+    this.onValueChange = this.onValueChange.bind(this)
   }
   onFormSubmit(event) {
     const { onSave } = this.props
@@ -22,106 +24,30 @@ export default class Sale extends React.Component {
       <div className="row">
         <form className="col-md-12 form-horizontal" onSubmit={this.onFormSubmit.bind(this)}>
 
-          <FieldGroup ref="xxx" id="formControlsText" type="text" label="Text" placeholder="Enter text" leftAddon="@" onValueChange={this.onValueChange.bind(this)} />
-          <FieldGroup id="formControlsText" type="text" label="Text" placeholder="Enter text" leftAddonIcon="user"  onValueChange={this.onValueChange.bind(this)} />
+          <FieldGroup id="vendedor" label="Vendedor" type="text" placeholder="Vendedor" addonIcon="user" onValueChange={this.onValueChange} />
+          <FieldGroup id="produto" label="Produto" type="text" placeholder="Produto" addonIcon="barcode" onValueChange={this.onValueChange} />
+          <FieldGroup id="preco" label="Preço" type="number" placeholder="0.00" step="0.10" addonIcon="usd" onValueChange={this.onValueChange} />
+          <FieldGroup id="quantidade" label="Quantidade" type="number" step="1" placeholder="0" onValueChange={this.onValueChange} />
+          <FieldGroup id="desconto" label="Desconto" type="number" step="0.10" placeholder="0.00" onValueChange={this.onValueChange} />
+          <FieldGroup id="total" label="Total" type="number" placeholder="0.00" step="0.10" addonIcon="usd" onValueChange={this.onValueChange} />
+          <FieldGroup id="data" label="Data" type="text" placeholder="dd/MM/yyyy" addonIcon="calendar" onValueChange={this.onValueChange} />
+          <FieldGroup id="hora" label="Hora" type="text" placeholder="hh:mm" addonIcon="time" onValueChange={this.onValueChange} />
 
-            <div className="form-group row">
-              <label htmlFor="salesman" className="col-md-2 control-label">Vendedor</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                    <span className="input-group-addon">
-                        <span className="glyphicon glyphicon-user"></span>
-                    </span>
-                    <input className="form-control" type="text" value="" id="salesman" placeholder="vendedor"/>
-                </div>
-              </div>
-            </div>
+          <FieldGroup id="select" label="Select" type="select" componentClass="select" placeholder="select" onValueChange={this.onValueChange} >
+            <option value="">Select something</option>
+            <option value="v1">Value 1</option>
+            <option value="v2">Value 2</option>
+            <option value="v3">Value 3</option>
+          </FieldGroup>
 
-            <div className="form-group row">
-              <label htmlFor="product" className="col-md-2 control-label">Produto</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                    <span className="input-group-addon">
-                        <span className="glyphicon glyphicon-barcode"></span>
-                    </span>
-                    <input className="form-control" type="text" value="" id="product" placeholder="produto"/>
-                </div>
-              </div>
-            </div>
+          <FieldGroup id="textarea" label="Textarea" componentClass="textarea" placeholder="Descriçao" onValueChange={this.onValueChange} />
 
-            <div className="form-group row">
-              <label htmlFor="price" className="col-md-2 control-label">Preço</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                    <span className="input-group-addon">
-                        <span className="glyphicon glyphicon-usd"></span>
-                    </span>
-                    <input className="form-control" type="number" step="0.10" value="" id="price" placeholder="preço"/>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label htmlFor="quantity" className="col-md-2 control-label">Quantidade</label>
-              <div className="col-md-10">
-                  <input className="form-control" type="number" step="1" value="" id="quantity" placeholder="0"/>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label htmlFor="discount" className="col-md-2 control-label">Desconto</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                  <span className="input-group-addon">%</span>
-                  <input className="form-control" type="number" step="0.10" value="" id="discount" placeholder="0.00"/>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label htmlFor="total" className="col-md-2 control-label">Total</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                  <span className="input-group-addon">
-                    <span className="glyphicon glyphicon-usd"></span>
-                  </span>
-                  <input className="form-control" type="number" step="0.10" value="" id="total" placeholder="0"/>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label htmlFor="sales_date" className="col-md-2 control-label">Data Venda</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                  <span className="input-group-addon">
-                    <span className="glyphicon glyphicon-calendar"></span>
-                  </span>
-                  <input className="form-control" type="text" value="" id="sales_date" placeholder="dd/MM/yyyy"/>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label className="col-md-2 control-label">Hora Venda</label>
-              <div className="col-md-10">
-                <div className="input-group">
-                  <span className="input-group-addon">
-                    <span className="glyphicon glyphicon-time"/>
-                  </span>
-                  <input className="form-control" type="text" value="" id="sales_time" placeholder="hh:mm"/>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <div className="col-md-offset-2 col-md-10 text-center">
-                <button id="btn-save" className="btn btn-lg btn-primary" type="submit">
-                    <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    Registrar
-                </button>
-              </div>
-            </div>
+          <ButtonToolbar className="text-center">
+            <Button bsSize="large" type="submit">
+              <Glyphicon glyph="ok" />
+              Registrar
+            </Button>
+          </ButtonToolbar>
 
         </form>
       </div>
